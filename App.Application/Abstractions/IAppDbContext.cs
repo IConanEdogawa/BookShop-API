@@ -11,6 +11,9 @@ namespace App.Application.Abstractions
     public interface IAppDbContext
     {
         DbSet<UserModel> Users { get; set; }
+        DbSet<Roles> Roles { get; set; }
+        DbSet<Categories> Categories { get; set; }
+        DbSet<Book> Books { get; set; }
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

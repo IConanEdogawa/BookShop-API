@@ -16,5 +16,8 @@ namespace App.Infrastructure.Persistance
 
         }
         public DbSet<UserModel> Users { get; set; }
+        public DbSet<Roles> Roles { get; set; }
+        public DbSet<Categories> Categories { get; set; }
+        public DbSet<Book> Books { get; set; }
     }
 }

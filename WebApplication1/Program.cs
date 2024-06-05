@@ -15,28 +15,17 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
         builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        // Register your custom services
         builder.Services.AddApplication();
         builder.Services.AddInfrastructure(builder.Configuration);
-        builder.Services.AddSingleton<ITelegramBotClient>(provider =>
-        {
-            var botToken = builder.Configuration["AppSettings:TelegramBot:Token"];
-            return new TelegramBotClient(botToken!);
-        });
-
-        // Add memory cache for rate limiting
         builder.Services.AddMemoryCache();
         
 
         var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -45,14 +34,12 @@ internal class Program
         }
         else
         {
-            // Use HSTS in production
             app.UseHsts();
         }
 
         app.UseHttpsRedirection();
 
-        // Add rate limiting middleware before authorization middleware
-        app.UseRateLimiting(limit: 5, window: TimeSpan.FromMinutes(1));
+        app.UseRateLimiting(limit: 150, window: TimeSpan.FromMinutes(5));
 
         app.UseAuthorization();
 

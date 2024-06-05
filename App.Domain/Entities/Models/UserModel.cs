@@ -10,10 +10,25 @@ namespace App.Domain.Entities.Models
     {
         public Guid Id { get; set; }
         public string FullName { get; set; }
-        public string UserName { get; set; }
-        public int Age { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string StatusOfUser { get; set; }
+        public Roles Role { get; set; }
+        public string PhotoPath { get; set; }
+        public string Bio { get; set; }
+        public List<MarkbookModel> Markbooks { get; set; }
+        public List<UserCommentModel> Comments { get; set; }
+
+
+
+
+
+
+
+
+
+
+        //----------------------------------------------------------------------
         public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
         public DateTimeOffset UpdatedDate { get; set; }
         public DateTimeOffset DeletedDate { get; set; }
