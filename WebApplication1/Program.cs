@@ -5,8 +5,6 @@ using App.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Telegram.Bot;
-using Telegram.Bot.Polling;
 using System;
 
 internal class Program
@@ -18,11 +16,10 @@ internal class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-
+        builder.Services.AddAutoMapper(typeof(Program));
         builder.Services.AddApplication();
         builder.Services.AddInfrastructure(builder.Configuration);
         builder.Services.AddMemoryCache();
-        
 
         var app = builder.Build();
 
@@ -38,6 +35,8 @@ internal class Program
         }
 
         app.UseHttpsRedirection();
+
+        app.UseStaticFiles(); 
 
         app.UseRateLimiting(limit: 150, window: TimeSpan.FromMinutes(5));
 

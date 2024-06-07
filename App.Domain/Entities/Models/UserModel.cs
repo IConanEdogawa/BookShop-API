@@ -31,20 +31,20 @@ namespace App.Domain.Entities.Models
         public Roles Role { get; set; }
         public Guid RoleId { get; set; }
 
-        public string PhotoPath { get; set; }
+        public string? PhotoPath { get; set; }
 
         [MaxLength(1000)]
-        public string Bio { get; set; }
+        public string? Bio { get; set; }
 
-        public List<MarkbookModel> Markbooks { get; set; } = new List<MarkbookModel>();
-        public List<UserCommentModel> Comments { get; set; } = new List<UserCommentModel>();
+        public List<MarkbookModel>? Markbooks { get; set; } = new List<MarkbookModel>();
+        public List<UserCommentModel>? Comments { get; set; } = new List<UserCommentModel>();
 
         //----------------------------------------------------------------------
         [DataType(DataType.DateTime)]
         public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
 
         [DataType(DataType.DateTime)]
-        public DateTimeOffset UpdatedDate { get; set; }
+        public DateTimeOffset? UpdatedDate { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTimeOffset? DeletedDate { get; set; }

@@ -13,7 +13,7 @@ namespace App.Domain.Entities
         public DateTimeOffset CreatedDate { get; set; }
 
         [DataType(DataType.DateTime)]
-        public DateTimeOffset UpdatedDate { get; set; }
+        public DateTimeOffset? UpdatedDate { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTimeOffset? DeletedDate { get; set; }

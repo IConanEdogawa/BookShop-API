@@ -1,4 +1,5 @@
 ﻿using App.Application.Abstractions;
+using App.Domain.Entities.Models;
 using App.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,5 +24,8 @@ namespace App.Infrastructure
             return services;
 
         }
+
+        
+
     }
 }

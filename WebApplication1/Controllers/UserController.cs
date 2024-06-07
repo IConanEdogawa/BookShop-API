@@ -1,12 +1,12 @@
 ﻿using App.Application.UseCases.UserCase.Commands;
 using App.Application.UseCases.UserCase.Queries;
+using App.Domain.Entities.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Threading.Tasks;
-using Telegram.Bot.Types;
 
 namespace WebApplication1.Controllers
 {
@@ -35,11 +35,19 @@ namespace WebApplication1.Controllers
             return BadRequest(result);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser([FromForm]UpdateUserCommand command)
+        {
+            var result = await _mediator.Send(command);
+            
+            return Ok(result);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
             // Qalesiz ustoz mana shetta man tekshirib olyapman userlarim bormi yo`qmi.
-            if (_memoryCache.TryGetValue("AllUsers", out List<User> users))
+            if (_memoryCache.TryGetValue("AllUsers", out List<UserModel> users))
             {
                 // Bor bo`sa qaytaradi. aslida background service hisobiga doim malumot bo`ladi lekin baribir xato bo`masligi uchun.
                 return Ok(users);
