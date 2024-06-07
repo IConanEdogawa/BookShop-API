@@ -7,7 +7,8 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
-        //CreateMap<UserModel, UserDto>().ReverseMap();
-        CreateMap<UserModel, ViewDto>().ReverseMap();
+        CreateMap<UserModel, ViewDto>()
+            .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role));
+
     }
 }

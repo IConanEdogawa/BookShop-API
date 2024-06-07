@@ -26,9 +26,13 @@ namespace App.Application.UseCases.UserCase.Handlers
 
         public async Task<List<ViewDto>> Handle(GetAllTgUsersQuery request, CancellationToken cancellationToken)
         {
-            var users = await _appDbContext.Users.ToListAsync(cancellationToken);
+            var users = await _appDbContext.Users
+                .Include(u => u.Role) // Жадная загрузка ролей
+                .ToListAsync(cancellationToken);
+
             var result = _mapper.Map<List<ViewDto>>(users);
             return result;
         }
+
     }
 }

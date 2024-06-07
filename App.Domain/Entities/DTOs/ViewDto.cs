@@ -19,5 +19,6 @@ namespace App.Domain.Entities.DTOs
         public string Bio { get; set; }
         public List<MarkbookModel>? Markbooks { get; set; } = new List<MarkbookModel>();
         public List<UserCommentModel>? Comments { get; set; } = new List<UserCommentModel>();
+        public Roles Role { get; set; }
     }
 }
