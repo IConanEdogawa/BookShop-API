@@ -50,5 +50,11 @@ namespace App.Domain.Entities.Models
         public DateTimeOffset? DeletedDate { get; set; }
 
         public bool IsDeleted { get; set; } = false;
+
+
+
+        public int? BooksRead { get; set; } = 0;
+        public int? CommentsMade { get; set; } = 0;
+        public int? LikesGiven { get; set; } = 0;
     }
 }
