@@ -25,7 +25,7 @@ namespace App.Domain.Entities.Models
         public Guid UserId { get; set; }
         public UserModel User { get; set; }
 
-        public List<ReplyModel> Replies { get; set; } = new List<ReplyModel>();
+        public List<ReplyModel>? Replies { get; set; } = new List<ReplyModel>();
 
         [DataType(DataType.DateTime)]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;

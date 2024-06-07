@@ -20,5 +20,8 @@ namespace App.Domain.Entities.DTOs
         public List<MarkbookModel>? Markbooks { get; set; } = new List<MarkbookModel>();
         public List<UserCommentModel>? Comments { get; set; } = new List<UserCommentModel>();
         public Roles Role { get; set; }
+        public int? BooksRead { get; set; }
+        public int? CommentsMade { get; set; }
+        public int? LikesGiven { get; set; }
     }
 }

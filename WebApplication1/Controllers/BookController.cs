@@ -1,5 +1,6 @@
 ﻿using App.Application.UseCases.BookCase.Commands;
 using App.Application.UseCases.BookCase.Queries;
+using App.Application.UseCases.UserCase.Queries;
 using App.Domain.Entities.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -24,6 +25,18 @@ namespace WebApplication1.Controllers
             var result = await _mediator.Send(new GetAllBooksQuery());
             return result;
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddComment(AddCommentCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+
+
+
+
 
         [HttpPost]
         public async Task<IActionResult> CreateBook(CreateBookCommand command)

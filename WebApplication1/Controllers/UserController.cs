@@ -35,6 +35,14 @@ namespace WebApplication1.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetComments()
+        {
+            var result = await _mediator.Send(new GetAllCommentsQuery());
+
+            return Ok(result);
+        }
+
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromForm]UpdateUserCommand command)
         {
