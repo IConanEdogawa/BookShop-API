@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace App.Application.UseCases.UserCase.Queries
 {
-    public class GetAllCommentsQuery : IRequest<IEnumerable<UserCommentModel>>
+    public class GetAllCommentsQuery : IRequest<IEnumerable<Comments>>
     {
         public Guid Id { get; set; }
     }

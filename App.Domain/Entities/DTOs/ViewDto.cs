@@ -18,7 +18,7 @@ namespace App.Domain.Entities.DTOs
         public Guid RoleId { get; set; }
         public string Bio { get; set; }
         public List<MarkbookModel>? Markbooks { get; set; } = new List<MarkbookModel>();
-        public List<UserCommentModel>? Comments { get; set; } = new List<UserCommentModel>();
+        public List<Comments>? Comments { get; set; } = new List<Comments>();
         public Roles Role { get; set; }
         public int? BooksRead { get; set; }
         public int? CommentsMade { get; set; }

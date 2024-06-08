@@ -11,60 +11,49 @@ using System.Threading.Tasks;
 
 namespace App.Application.UseCases.BookCase.Handlers.CommandHandler
 {
-    public class AddCommentCommandHandler : IRequestHandler<AddCommentCommand, ResponseModel>
+    public class AddCommentCommandHandler : IRequestHandler<AddCommentCommand, Guid>
     {
-        private readonly IAppDbContext _appDbContext;
+        private readonly IAppDbContext _context;
 
-        public AddCommentCommandHandler(IAppDbContext appDbContext)
+        public AddCommentCommandHandler(IAppDbContext context)
         {
-            _appDbContext = appDbContext;
+            _context = context;
         }
 
-        public async Task<ResponseModel> Handle(AddCommentCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(AddCommentCommand request, CancellationToken cancellationToken)
         {
-            var bookComment = new BookComment
+            var _Id = Guid.NewGuid();
+            var comment = new Comments
             {
-                Id = Guid.NewGuid(),
+                Id = _Id,
+                CommentText = request.Message,
                 BookId = request.BookId,
                 UserId = request.UserId,
-                CommentText = request.Message,
                 CreatedDate = DateTime.UtcNow
             };
 
-            var userComment = new UserCommentModel
+            _context.Comments.Add(comment);
+            if (request.Replies != null && request.Replies.Count > 0)
             {
-                Id = Guid.NewGuid(),
-                BookId = request.BookId,
-                UserId = request.UserId,
-                Message = request.Message,
-                CreatedDate = DateTime.UtcNow,
-            };
-
-            // Загрузка связанных сущностей Users и Books
-            var user = await _appDbContext.Users.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
-            var book = await _appDbContext.Books.FirstOrDefaultAsync(b => b.Id == request.BookId, cancellationToken);
-
-            if (user != null)
-            {
-                user.Comments.Add(userComment);
-                _appDbContext.Users.Update(user);
+                foreach (var replyDto in request.Replies)
+                {
+                    var reply = new Reply
+                    {
+                        Id = _Id,
+                        CommentId = comment.Id,
+                        SenderId = replyDto.SenderId,
+                        ReplyMessage = replyDto.ReplyMessage,
+                        CreatedDate = DateTime.UtcNow
+                    };
+                    _context.Replies.Add(reply);
+                }
             }
 
-            if (book != null)
-            {
-                book.Comments.Add(bookComment);
-                _appDbContext.Books.Update(book);
-            }
+            await _context.SaveChangesAsync(cancellationToken);
 
-            await _appDbContext.SaveChangesAsync(cancellationToken);
-
-            return new ResponseModel()
-            {
-                StatusCode = 200,
-                Message = $"Comment added successfully to {book?.Title} by {user?.FullName}!",
-                IsSuccess = true
-            };
+            return comment.Id;
         }
-
     }
+
 }
+

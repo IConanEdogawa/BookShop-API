@@ -59,7 +59,7 @@ namespace App.Domain.Entities.Models
         public DateTime? PublishedDate { get; set; }
 
         // Связь с комментариями
-        public ICollection<BookComment>? Comments { get; set; } = new List<BookComment>();
+        public ICollection<Comments>? Comments { get; set; } = new List<Comments>();
 
         // Статистика книги
         public long? Rate { get; set; }

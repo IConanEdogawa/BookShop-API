@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace App.Application.UseCases.UserCase.Handlers
 {
-    public class GetAllCommentsQueryHandler : IRequestHandler<GetAllCommentsQuery, IEnumerable<UserCommentModel>>
+    public class GetAllCommentsQueryHandler : IRequestHandler<GetAllCommentsQuery, IEnumerable<Comments>>
     {
         private readonly IAppDbContext _appDbContext;
 
@@ -20,18 +20,18 @@ namespace App.Application.UseCases.UserCase.Handlers
             _appDbContext = appDbContext;
         }
 
-        public async Task<IEnumerable<UserCommentModel>> Handle(GetAllCommentsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Comments>> Handle(GetAllCommentsQuery request, CancellationToken cancellationToken)
         {
-            var user = await _appDbContext.Users.FirstOrDefaultAsync(u => u.Id == request.Id);
+            var user = await _appDbContext.Users
+                .Include(u => u.Comments)
+                .FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
 
-            if(user == null)
+            if (user == null)
             {
-                return Enumerable.Empty<UserCommentModel>();
+                return Enumerable.Empty<Comments>();
             }
 
-            var comments = user.Comments;
-
-            return comments!;
+            return user.Comments;
         }
     }
 }

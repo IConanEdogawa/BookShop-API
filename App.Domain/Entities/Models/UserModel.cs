@@ -37,7 +37,7 @@ namespace App.Domain.Entities.Models
         public string? Bio { get; set; }
 
         public List<MarkbookModel>? Markbooks { get; set; } = new List<MarkbookModel>();
-        public List<UserCommentModel>? Comments { get; set; } = new List<UserCommentModel>();
+        public List<Comments>? Comments { get; set; } = new List<Comments>();
 
         //----------------------------------------------------------------------
         [DataType(DataType.DateTime)]

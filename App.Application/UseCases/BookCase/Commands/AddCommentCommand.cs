@@ -8,11 +8,20 @@ using System.Threading.Tasks;
 
 namespace App.Application.UseCases.BookCase.Commands
 {
-    public class AddCommentCommand : IRequest<ResponseModel>
+    public class AddCommentCommand : IRequest<Guid>
     {
         public Guid BookId { get; set; }
         public Guid UserId { get; set; }
         public string Message { get; set; }
-        public List<ReplyModel>? Replies { get; set; }
+        public List<ReplyDto> Replies { get; set; }
     }
+
+    public class ReplyDto
+    {
+        public Guid CommentId { get; set; }
+        public Guid SenderId { get; set; }
+        public string ReplyMessage { get; set; }
+    }
+
+
 }

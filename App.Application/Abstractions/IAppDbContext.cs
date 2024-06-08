@@ -10,10 +10,12 @@ namespace App.Application.Abstractions
 {
     public interface IAppDbContext
     {
-        DbSet<UserModel> Users { get; set; }
-        DbSet<Roles> Roles { get; set; }
-        DbSet<Categories> Categories { get; set; }
-        DbSet<Book> Books { get; set; }
+        public DbSet<UserModel> Users { get; set; }
+        public DbSet<Roles> Roles { get; set; }
+        public DbSet<Categories> Categories { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Comments> Comments { get; set; }
+        public DbSet<Reply> Replies { get; set; }
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
