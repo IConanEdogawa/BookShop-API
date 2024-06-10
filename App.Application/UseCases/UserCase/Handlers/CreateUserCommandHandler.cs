@@ -33,14 +33,14 @@ namespace App.Application.UseCases.UserCase.Handlers
 
             else
             {
+                var role = _appDbContext.Roles.FirstOrDefault(x => x.Name == "User");
                 var user = new UserModel()
                 {
                     Id = Guid.NewGuid(),
-                    FullName = request.FullName,
-                    Email = request.Email,
-                    Password = request.Password,
-                    StatusOfUser = "Normal User",
-                    Role = new Roles() { Id = Guid.NewGuid(), Name = "User" },
+                    FullName = request.FullName!,
+                    Email = request.Email!,
+                    Password = request.Password!,
+                    Role = role!,
                     CreatedDate = DateTime.UtcNow,
 
                 };

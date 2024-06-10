@@ -52,9 +52,7 @@ namespace App.Application.UseCases.BookCase.Handlers.CommandHandler
                     Author = request.Author,
                     Description = request.Description,
                     CreatedDate = DateTime.UtcNow,
-                    Tags = request.Tags,
-                    Categories = request.Categories,
-                    Poster = photoPath
+                    PosterUrl = $"localhost:4200{photoPath}"
             };
 
                 await _appDbContext.Books.AddAsync(book);

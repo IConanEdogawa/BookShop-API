@@ -12,9 +12,9 @@ namespace App.Application.UseCases.UserCase.Commands
     public class UpdateUserCommand : IRequest<ResponseModel>
     {
         public Guid Id { get; set; }
-        public string FullName { get; set; }
-        public string Email { get; set; }
-        public IFormFile Photo { get; set; }
+        public string? FullName { get; set; }
+        public string? Email { get; set; }
+        public IFormFile? Photo { get; set; }
         public string? Bio { get; set; }
 
     }

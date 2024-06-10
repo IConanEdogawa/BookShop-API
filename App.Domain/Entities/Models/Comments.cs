@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace App.Domain.Entities.Models
 {
@@ -17,12 +18,12 @@ namespace App.Domain.Entities.Models
         [MaxLength(2000)]
         public string CommentText { get; set; }
 
-        [ForeignKey("Book")]
-        public Guid? BookId { get; set; }
-        public Book? Book { get; set; }
+        public Guid BookId { get; set; }
+        [JsonIgnore]
+        public Book Book { get; set; }
 
-        [ForeignKey("User")]
         public Guid UserId { get; set; }
+        [JsonIgnore]
         public UserModel User { get; set; }
 
 

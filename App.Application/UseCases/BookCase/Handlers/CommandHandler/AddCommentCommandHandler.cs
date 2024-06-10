@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace App.Application.UseCases.BookCase.Handlers.CommandHandler
 {
-    public class AddCommentCommandHandler : IRequestHandler<AddCommentCommand, Guid>
+    public class AddCommentCommandHandler : IRequestHandler<AddCommentCommand, ResponseModel>
     {
         private readonly IAppDbContext _context;
 
@@ -20,7 +20,7 @@ namespace App.Application.UseCases.BookCase.Handlers.CommandHandler
             _context = context;
         }
 
-        public async Task<Guid> Handle(AddCommentCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseModel> Handle(AddCommentCommand request, CancellationToken cancellationToken)
         {
             var _Id = Guid.NewGuid();
             var comment = new Comments
@@ -33,25 +33,16 @@ namespace App.Application.UseCases.BookCase.Handlers.CommandHandler
             };
 
             _context.Comments.Add(comment);
-            if (request.Replies != null && request.Replies.Count > 0)
-            {
-                foreach (var replyDto in request.Replies)
-                {
-                    var reply = new Reply
-                    {
-                        Id = _Id,
-                        CommentId = comment.Id,
-                        SenderId = replyDto.SenderId,
-                        ReplyMessage = replyDto.ReplyMessage,
-                        CreatedDate = DateTime.UtcNow
-                    };
-                    _context.Replies.Add(reply);
-                }
-            }
+
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return comment.Id;
+            return new ResponseModel()
+            {
+                StatusCode = 200,
+                Message = $"Comment added successfully. Id is {_Id}",
+                IsSuccess = true
+            };
         }
     }
 

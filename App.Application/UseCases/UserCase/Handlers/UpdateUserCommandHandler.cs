@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace App.Application.UseCases.UserCase.Handlers
 {
@@ -16,11 +17,13 @@ namespace App.Application.UseCases.UserCase.Handlers
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IAppDbContext _appDbContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UpdateUserCommandHandler(IWebHostEnvironment webHostEnvironment, IAppDbContext appDbContext)
+        public UpdateUserCommandHandler(IWebHostEnvironment webHostEnvironment, IAppDbContext appDbContext, IHttpContextAccessor httpContextAccessor)
         {
             _webHostEnvironment = webHostEnvironment;
             _appDbContext = appDbContext;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<ResponseModel> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
@@ -57,12 +60,13 @@ namespace App.Application.UseCases.UserCase.Handlers
                 }
 
                 // Установка пути к файлу
-                var photoPath = $"/uploads/{uniqueFileName}";
+                var baseUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
+                var photoUrl = $"{baseUrl}/uploads/{uniqueFileName}";
 
                 if (user != null)
                 {
                     user.FullName = request.FullName;
-                    user.PhotoPath = photoPath;
+                    user.PhotoUrl = photoUrl;
                     user.Bio = request.Bio;
                     user.Email = request.Email;
 

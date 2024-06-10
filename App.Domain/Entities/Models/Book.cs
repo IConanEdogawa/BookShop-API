@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace App.Domain.Entities.Models
 {
@@ -16,7 +13,7 @@ namespace App.Domain.Entities.Models
         [MaxLength(255)]
         public string Title { get; set; }
 
-        public string Poster { get; set; }
+        public string PosterUrl { get; set; }
 
         [MaxLength(255)]
         public string OriginalTitle { get; set; }
@@ -38,7 +35,7 @@ namespace App.Domain.Entities.Models
         public string? Artist { get; set; }
 
         [MaxLength(255)]
-        public string? Translator { get; set; } 
+        public string? Translator { get; set; }
 
         [MaxLength(255)]
         public string? Country { get; set; }
@@ -46,8 +43,11 @@ namespace App.Domain.Entities.Models
         [MaxLength(100)]
         public string? Status { get; set; }
 
-        public List<string>? Tags { get; set; }
-        public List<string>? Categories { get; set; }
+        // Связь с тегами
+        public ICollection<Tag>? Tags { get; set; } = new List<Tag>();
+
+        // Связь с категориями
+        public ICollection<Category>? Categories { get; set; } = new List<Category>();
 
         [DataType(DataType.DateTime)]
         public DateTime? CreatedDate { get; set; }
@@ -66,7 +66,5 @@ namespace App.Domain.Entities.Models
         public long? Views { get; set; }
         public long? Likes { get; set; }
         public long? Saves { get; set; }
-
     }
-
 }

@@ -12,6 +12,7 @@ namespace App.Application.Abstractions
     {
         public DbSet<UserModel> Users { get; set; }
         public DbSet<Roles> Roles { get; set; }
+        public DbSet<RolesOfUsers> RolesOfUsers { get; set; }
         public DbSet<Categories> Categories { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Comments> Comments { get; set; }

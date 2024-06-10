@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace App.Application.UseCases.BookCase.Commands
 {
-    public class AddCommentCommand : IRequest<Guid>
+    public class AddCommentCommand : IRequest<ResponseModel>
     {
         public Guid BookId { get; set; }
         public Guid UserId { get; set; }

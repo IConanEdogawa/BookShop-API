@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace App.Application.UseCases.BookCase.Handlers.QueryHandler
 {
-    public class GetAllBooksQueryHandler : IRequestHandler<GetAllBooksQuery, IEnumerable<Book>>
+    public class GetAllBooksQueryHandler : IRequestHandler<GetAllBooksQuery, List<Book>>
     {
         private readonly IAppDbContext _appDbContext;
 
@@ -20,7 +20,7 @@ namespace App.Application.UseCases.BookCase.Handlers.QueryHandler
             _appDbContext = appDbContext;
         }
 
-        public async Task<IEnumerable<Book>> Handle(GetAllBooksQuery request, CancellationToken cancellationToken)
+        public async Task<List<Book>> Handle(GetAllBooksQuery request, CancellationToken cancellationToken)
         {
             var result =  await _appDbContext.Books.ToListAsync();
 

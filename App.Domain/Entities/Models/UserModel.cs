@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace App.Domain.Entities.Models
 {
@@ -24,19 +25,16 @@ namespace App.Domain.Entities.Models
         [Required]
         public string Password { get; set; }
 
-        [MaxLength(50)]
-        public string StatusOfUser { get; set; }
 
-        [ForeignKey("RoleId")]
+        public int RoleId { get; set; }
+        [JsonIgnore]
         public Roles Role { get; set; }
-        public Guid RoleId { get; set; }
 
-        public string? PhotoPath { get; set; }
+        public string? PhotoUrl  { get; set; }
 
         [MaxLength(1000)]
         public string? Bio { get; set; }
 
-        public List<MarkbookModel>? Markbooks { get; set; } = new List<MarkbookModel>();
         public List<Comments>? Comments { get; set; } = new List<Comments>();
 
         //----------------------------------------------------------------------

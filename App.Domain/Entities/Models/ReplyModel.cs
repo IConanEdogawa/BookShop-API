@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+using System.Text.Json.Serialization;
 
 namespace App.Domain.Entities.Models
 {
@@ -14,19 +9,17 @@ namespace App.Domain.Entities.Models
         [Key]
         public Guid Id { get; set; }
 
-        [ForeignKey("Comment")]
-        public Guid CommentId { get; set; }
-        public Comments Comment { get; set; }
+        // Ссылка на исходный комментарий
+        public Guid OriginalCommentId { get; set; }
+        [JsonIgnore]
+        public Comments OriginalComment { get; set; }
 
-        [ForeignKey("Sender")]
-        public Guid SenderId { get; set; }
-        public UserModel Sender { get; set; }
-
-        [MaxLength(2000)]
-        public string ReplyMessage { get; set; }
+        // Ссылка на комментарий-ответ
+        public Guid ReplyCommentId { get; set; }
+        [JsonIgnore]
+        public Comments ReplyComment { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
     }
-
 }
