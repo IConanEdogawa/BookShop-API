@@ -16,16 +16,39 @@ namespace App.Application.UseCases.BookCase.Handlers.CommandHandler
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IAppDbContext _appDbContext;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public CreateBookCommandHandler(IWebHostEnvironment webHostEnvironment, IAppDbContext appDbContext, IHttpContextAccessor httpContextAccessor)
+        public CreateBookCommandHandler(IWebHostEnvironment webHostEnvironment, IAppDbContext appDbContext)
         {
             _webHostEnvironment = webHostEnvironment;
             _appDbContext = appDbContext;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<ResponseModel> Handle(CreateBookCommand request, CancellationToken cancellationToken)
         {
+            // Проверяем наличие файла PDF
+            if (request.PdfFile == null || request.PdfFile.Length == 0)
+            {
+                return new ResponseModel { StatusCode = 400, Message = "PDF file is required", IsSuccess = false };
+            }
+
+            var uniquePdfFileName = $"{Guid.NewGuid()}_{request.PdfFile.FileName}";
+            var uploadsFolderPdf = Path.Combine(_webHostEnvironment.WebRootPath, "pdfs");
+
+            if (!Directory.Exists(uploadsFolderPdf))
+            {
+                Directory.CreateDirectory(uploadsFolderPdf);
+            }
+
+            var pdfFilePath = Path.Combine(uploadsFolderPdf, uniquePdfFileName);
+
+            // Сохраняем файл PDF
+            using (var fileStream = new FileStream(pdfFilePath, FileMode.Create))
+            {
+                await request.PdfFile.CopyToAsync(fileStream);
+            }
+
+            // Устанавливаем URL для файла PDF
+            var pdfBaseUrl = $"{request.BaseUrl}/pdfs/{uniquePdfFileName}";
+
             if (request.Poster != null)
             {
                 var uniqueFileName = $"{Guid.NewGuid()}_{request.Poster.FileName}";
@@ -46,8 +69,7 @@ namespace App.Application.UseCases.BookCase.Handlers.CommandHandler
                 }
 
                 // Установка пути к файлу
-                var baseUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
-                var photoUrl = $"{baseUrl}/posters/{uniqueFileName}";
+                var photoUrl = $"{request.BaseUrl}/posters/{uniqueFileName}";
                 var book = new Book()
                 {
                     Id = Guid.NewGuid(),
@@ -57,6 +79,7 @@ namespace App.Application.UseCases.BookCase.Handlers.CommandHandler
                     Description = request.Description,
                     CreatedDate = DateTime.UtcNow,
                     PosterUrl = photoUrl,
+                    PdfUrl = pdfBaseUrl,
                     Price = request.Price,
             };
 

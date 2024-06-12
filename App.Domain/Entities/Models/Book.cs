@@ -12,7 +12,7 @@ namespace App.Domain.Entities.Models
         [MaxLength(255)]
         public string Title { get; set; }
         public string Price { get; set; }
-
+        public string PdfUrl { get; set; }
         public string PosterUrl { get; set; }
 
         [MaxLength(255)]
