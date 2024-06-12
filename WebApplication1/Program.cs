@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using App.Infrastructure.App.Infrastructure;
 
 internal class Program
 {
@@ -17,6 +18,9 @@ internal class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddAutoMapper(typeof(UserProfile));
+
+        builder.Services.AddHttpContextAccessor();
+
         builder.Services.AddApplication();
         builder.Services.AddInfrastructure(builder.Configuration);
         builder.Services.AddMemoryCache();
@@ -36,7 +40,7 @@ internal class Program
 
         app.UseHttpsRedirection();
 
-        app.UseStaticFiles(); 
+        app.UseStaticFiles();
 
         app.UseRateLimiting(limit: 150, window: TimeSpan.FromMinutes(5));
 

@@ -6,12 +6,12 @@ namespace App.Domain.Entities.Models
 {
     public class Book
     {
-        [Key]
         public Guid Id { get; set; }
 
         [Required]
         [MaxLength(255)]
         public string Title { get; set; }
+        public string Price { get; set; }
 
         public string PosterUrl { get; set; }
 

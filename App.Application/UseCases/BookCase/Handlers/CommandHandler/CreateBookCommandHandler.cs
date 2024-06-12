@@ -3,6 +3,7 @@ using App.Application.UseCases.BookCase.Commands;
 using App.Domain.Entities.Models;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,12 @@ namespace App.Application.UseCases.BookCase.Handlers.CommandHandler
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IAppDbContext _appDbContext;
-        public CreateBookCommandHandler(IWebHostEnvironment webHostEnvironment, IAppDbContext appDbContext)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public CreateBookCommandHandler(IWebHostEnvironment webHostEnvironment, IAppDbContext appDbContext, IHttpContextAccessor httpContextAccessor)
         {
             _webHostEnvironment = webHostEnvironment;
             _appDbContext = appDbContext;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<ResponseModel> Handle(CreateBookCommand request, CancellationToken cancellationToken)
@@ -43,7 +46,8 @@ namespace App.Application.UseCases.BookCase.Handlers.CommandHandler
                 }
 
                 // Установка пути к файлу
-                var photoPath = $"/posters/{uniqueFileName}";
+                var baseUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
+                var photoUrl = $"{baseUrl}/posters/{uniqueFileName}";
                 var book = new Book()
                 {
                     Id = Guid.NewGuid(),
@@ -52,7 +56,8 @@ namespace App.Application.UseCases.BookCase.Handlers.CommandHandler
                     Author = request.Author,
                     Description = request.Description,
                     CreatedDate = DateTime.UtcNow,
-                    PosterUrl = $"localhost:4200{photoPath}"
+                    PosterUrl = photoUrl,
+                    Price = request.Price,
             };
 
                 await _appDbContext.Books.AddAsync(book);

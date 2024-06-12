@@ -21,7 +21,7 @@ namespace App.Application.UseCases.RoleCase.Handlers.CommandHandler
 
         public async Task<ResponseModel> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
         {
-            await _appDbContext.Roles.AddAsync(new Roles() { Id = Guid.NewGuid(), Name = request.Name }, cancellationToken);
+            await _appDbContext.Roles.AddAsync(new Roles() { Name = request.Name }, cancellationToken);
             await _appDbContext.SaveChangesAsync(cancellationToken);
 
             return new ResponseModel() { IsSuccess = true, Message = "Role created successfully", StatusCode = 201 };

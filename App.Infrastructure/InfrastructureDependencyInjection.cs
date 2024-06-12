@@ -12,20 +12,24 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructure
 {
-    public static class InfrastructureDependencyInjection
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+
+    namespace App.Infrastructure
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        public static class InfrastructureDependencyInjection
         {
-            services.AddDbContext<IAppDbContext, AppDbContext>(options =>
+            public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
             {
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
-            });
+                services.AddDbContext<IAppDbContext, AppDbContext>(options =>
+                {
+                    options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+                });
 
-            return services;
-
+                return services;
+            }
         }
-
-        
-
     }
+
 }

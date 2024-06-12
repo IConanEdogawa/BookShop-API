@@ -9,8 +9,8 @@ namespace App.Domain.Entities.Models
 {
     public class ResponseModel
     {
-        public string Message { get; set; }
-        public int StatusCode { get; set; }
-        public bool IsSuccess { get; set; }
+        public string Message { get; set; } = "Message not set";
+        public int StatusCode { get; set; } = 200;
+        public bool IsSuccess { get; set; } = false;
     }
 }

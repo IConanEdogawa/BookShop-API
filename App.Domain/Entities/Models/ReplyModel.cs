@@ -6,7 +6,6 @@ namespace App.Domain.Entities.Models
 {
     public class Reply
     {
-        [Key]
         public Guid Id { get; set; }
 
         // Ссылка на исходный комментарий

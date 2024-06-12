@@ -11,7 +11,6 @@ namespace App.Domain.Entities.Models
 {
     public class Comments
     {
-        [Key]
         public Guid Id { get; set; }
 
         [Required]

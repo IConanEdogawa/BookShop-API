@@ -13,11 +13,9 @@ namespace App.Domain.Entities.DTOs
         public Guid Id { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
-        public string StatusOfUser { get; set; }
-        public string PhotoPath { get; set; }
+        public string PhotoUrl { get; set; }
         public Guid RoleId { get; set; }
-        public string Bio { get; set; }
-        public List<MarkbookModel>? Markbooks { get; set; } = new List<MarkbookModel>();
+        public string? Bio { get; set; }
         public List<Comments>? Comments { get; set; } = new List<Comments>();
         public Roles Role { get; set; }
         public int? BooksRead { get; set; }

@@ -11,7 +11,6 @@ namespace App.Domain.Entities.Models
 {
     public class UserModel : IAuditable
     {
-        [Key]
         public Guid Id { get; set; }
 
         [Required]
@@ -26,7 +25,7 @@ namespace App.Domain.Entities.Models
         public string Password { get; set; }
 
 
-        public int RoleId { get; set; }
+        public Guid RoleId { get; set; }
         [JsonIgnore]
         public Roles Role { get; set; }
 

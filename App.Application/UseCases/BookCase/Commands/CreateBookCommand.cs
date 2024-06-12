@@ -12,6 +12,7 @@ namespace App.Application.UseCases.BookCase.Commands
     public class CreateBookCommand : IRequest<ResponseModel>
     {
         public string Title { get; set; }
+        public string Price { get; set; }
         public IFormFile Poster { get; set; }
         public string Author { get; set; }
         public string Description { get; set; }

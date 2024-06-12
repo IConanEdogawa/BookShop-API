@@ -9,8 +9,7 @@ namespace App.Domain.Entities.Models
 {
     public class Roles
     {
-        [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [MaxLength(50)]

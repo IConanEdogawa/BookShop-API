@@ -9,6 +9,7 @@ namespace App.Infrastructure.Persistance
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
+
         }
 
         public DbSet<UserModel> Users { get; set; }
@@ -29,6 +30,9 @@ namespace App.Infrastructure.Persistance
             ConfigureIndices(modelBuilder);
             ConfigureTags(modelBuilder);
             ConfigureCategories(modelBuilder);
+            ConfigureRoles(modelBuilder);
+
+            SeedRoles(modelBuilder);
         }
 
         private void ConfigureComments(ModelBuilder modelBuilder)
@@ -41,8 +45,6 @@ namespace App.Infrastructure.Persistance
                       .IsRequired()
                       .HasMaxLength(2000);
 
-                entity.Property(e => e.CreatedDate)
-                      .HasDefaultValueSql("getutcdate()");
 
                 entity.HasOne(e => e.Book)
                       .WithMany(b => b.Comments)
@@ -62,8 +64,7 @@ namespace App.Infrastructure.Persistance
             {
                 entity.HasKey(e => e.Id);
 
-                entity.Property(e => e.CreatedDate)
-                      .HasDefaultValueSql("getutcdate()");
+
 
                 entity.HasOne(r => r.OriginalComment)
                       .WithMany()
@@ -83,7 +84,7 @@ namespace App.Infrastructure.Persistance
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Title).IsRequired().HasMaxLength(255);
-                // Другие настройки для Book
+                // Other configurations for Book
             });
         }
 
@@ -93,7 +94,7 @@ namespace App.Infrastructure.Persistance
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.FullName).IsRequired().HasMaxLength(255);
-                // Другие настройки для UserModel
+                // Other configurations for UserModel
             });
         }
 
@@ -108,6 +109,21 @@ namespace App.Infrastructure.Persistance
                 .HasMany(u => u.Comments)
                 .WithOne(c => c.User)
                 .HasForeignKey(c => c.UserId);
+
+            modelBuilder.Entity<RolesOfUsers>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.HasOne(ru => ru.Role)
+                      .WithMany()
+                      .HasForeignKey(ru => ru.RoleId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(ru => ru.User)
+                      .WithMany()
+                      .HasForeignKey(ru => ru.UserId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
         }
 
         private void ConfigureIndices(ModelBuilder modelBuilder)
@@ -132,6 +148,24 @@ namespace App.Infrastructure.Persistance
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
             });
+        }
+
+        private void ConfigureRoles(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Roles>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Name).IsRequired().HasMaxLength(50);
+            });
+        }
+
+        private void SeedRoles(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Roles>().HasData(
+                new Roles { Id = Guid.NewGuid(), Name = "Admin" },
+                new Roles { Id = Guid.NewGuid(), Name = "User" },
+                new Roles { Id = Guid.NewGuid(), Name = "PremiumUser" }
+            );
         }
     }
 }

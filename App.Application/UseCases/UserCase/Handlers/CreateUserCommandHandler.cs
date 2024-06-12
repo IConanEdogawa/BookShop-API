@@ -40,7 +40,7 @@ namespace App.Application.UseCases.UserCase.Handlers
                     FullName = request.FullName!,
                     Email = request.Email!,
                     Password = request.Password!,
-                    Role = role!,
+                    RoleId = role!.Id,
                     CreatedDate = DateTime.UtcNow,
 
                 };
